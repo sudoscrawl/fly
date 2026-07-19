@@ -2,6 +2,7 @@ from pathlib import Path
 
 import typer
 
+from fly.services.fileio import FileIO
 from fly.services.git import Git
 
 
@@ -10,7 +11,9 @@ def init(name: str | None = None):
         typer.echo("Not inside a git repository.", err=True)
         raise typer.Exit(code=1)
 
-    if name is None:
-        name = Path(Git.get_repository_root()).name
+    project_root = Path(Git.get_repository_root())
 
-    typer.echo(name)
+    if name is None:
+        name = project_root.name
+
+    FileIO.create_fly_dir(project_root)
