@@ -1,6 +1,7 @@
 import typer
 
 from fly.callbacks.version import get_version
+from fly.commands.init import init
 
 app = typer.Typer()
 
@@ -14,3 +15,6 @@ def main(
     if version:
         get_version()
         raise typer.Exit()
+
+
+app.command()(init)
