@@ -10,7 +10,7 @@ class FileIO:
     @staticmethod
     def update_gitignore(path: str):
         gitignore_path = f"{path}/.gitignore"
-        strings = ["# Fly\n", ".fly\n"]
+        strings = ["\n", "# Fly\n", ".fly\n"]
 
         with open(gitignore_path, "a") as file:
             file.writelines(strings)

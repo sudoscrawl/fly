@@ -17,3 +17,4 @@ def init(name: str | None = None):
         name = project_root.name
 
     FileIO.create_fly_dir(project_root)
+    FileIO.update_gitignore(Git.get_repository_root())
