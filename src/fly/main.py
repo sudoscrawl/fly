@@ -1,4 +1,5 @@
 import typer
+
 from fly.callbacks.version import get_version
 
 app = typer.Typer()

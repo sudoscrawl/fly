@@ -1,4 +1,5 @@
 import typer
+
 from fly import __version__
 
 
