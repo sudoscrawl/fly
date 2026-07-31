@@ -15,6 +15,9 @@ def init(name: str | None = None):
 
     if name is None:
         name = project_root.name
+    if FileIO.check_if_initialized(project_root):
+        typer.echo("Project is already initialized with fly.", err=True)
+        raise typer.Exit(code=1)
 
     FileIO.create_fly_dir(project_root)
     FileIO.update_gitignore(Git.get_repository_root())

@@ -3,18 +3,20 @@ from pathlib import Path
 
 class FileIO:
     @staticmethod
-    def create_fly_dir(path: Path):
+    def check_if_initialized(path: Path) -> bool:
+        fly_dir = path / ".fly"
+
+        return fly_dir.is_dir()
+
+    @staticmethod
+    def create_fly_dir(path: Path) -> None:
         fly_dir = path / ".fly"
         fly_dir.mkdir(exist_ok=True)
 
     @staticmethod
-    def update_gitignore(path: str):
+    def update_gitignore(path: str) -> None:
         gitignore_path = f"{path}/.gitignore"
         strings = ["\n", "# Fly\n", ".fly\n"]
 
         with open(gitignore_path, "a") as file:
             file.writelines(strings)
-
-    @staticmethod
-    def initialize_project():
-        pass
