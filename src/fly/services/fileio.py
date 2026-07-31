@@ -14,3 +14,7 @@ class FileIO:
 
         with open(gitignore_path, "a") as file:
             file.writelines(strings)
+
+    @staticmethod
+    def initialize_project():
+        pass
