@@ -20,3 +20,10 @@ class FileIO:
 
         with open(gitignore_path, "a") as file:
             file.writelines(strings)
+
+    @staticmethod
+    def initialize_notes(path: Path) -> None:
+        fly_dir = path / ".fly"
+
+        (fly_dir / "todo.json").write_text("[]\n")
+        (fly_dir / "notes.json").write_text("[]\n")

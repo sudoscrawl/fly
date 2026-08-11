@@ -20,4 +20,5 @@ def init(name: str | None = None):
         raise typer.Exit(code=1)
 
     FileIO.create_fly_dir(project_root)
+    FileIO.initialize_notes(project_root)
     FileIO.update_gitignore(Git.get_repository_root())
