@@ -22,3 +22,6 @@ def init(name: str | None = None):
     FileIO.create_fly_dir(project_root)
     FileIO.initialize_notes(project_root)
     FileIO.update_gitignore(Git.get_repository_root())
+
+    typer.echo("Your project has been initialized with fly.")
+    raise typer.Exit()
