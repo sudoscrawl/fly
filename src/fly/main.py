@@ -22,7 +22,7 @@ def main(
         raise typer.Exit()
 
     if ctx.invoked_subcommand is None:
-        console.print("[bold cyan]Fly[/bold cyan]")
+        console.print("[bold cyan]fly[/bold cyan]")
         console.print("[italic dim]Your project's second memory.[/italic dim]\n")
 
         console.print("Use fly --help to get a list of all available commands")
