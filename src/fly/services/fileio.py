@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 
@@ -22,8 +23,11 @@ class FileIO:
             file.writelines(strings)
 
     @staticmethod
-    def initialize_notes(path: Path) -> None:
+    def initialize_project(path: Path, name: str) -> None:
         fly_dir = path / ".fly"
 
-        (fly_dir / "todo.json").write_text("[]\n")
-        (fly_dir / "notes.json").write_text("[]\n")
+        (fly_dir / "project.json").write_text(
+            json.dumps({"name": name}, indent=2) + "\n"
+        )
+        (fly_dir / "todo.json").write_text("{}\n")
+        (fly_dir / "notes.json").write_text("{}\n")
