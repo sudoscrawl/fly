@@ -3,6 +3,7 @@ from rich.console import Console
 
 from fly.callbacks.version import get_version
 from fly.commands.init import init
+from fly.commands.remember import remember
 
 app = typer.Typer()
 
@@ -30,3 +31,4 @@ def main(
 
 
 app.command(help="Initialize a project")(init)
+app.command(help="Create a note")(remember)
