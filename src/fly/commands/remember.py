@@ -21,7 +21,7 @@ def remember(note: str) -> None:
         )
         raise typer.Exit(code=1)
 
-    notes_file = project_root / "notes.json"
+    notes_file = project_root / ".fly/notes.json"
 
     if notes_file.exists():
         try:
