@@ -29,5 +29,5 @@ class FileIO:
         (fly_dir / "project.json").write_text(
             json.dumps({"name": name}, indent=2) + "\n"
         )
-        (fly_dir / "todo.json").write_text("{}\n")
-        (fly_dir / "notes.json").write_text("{}\n")
+        (fly_dir / "todo.json").write_text("[]\n")
+        (fly_dir / "notes.json").write_text("[]\n")
