@@ -1,9 +1,12 @@
+from typing import Annotated
+
 import typer
 from rich.console import Console
 
 from fly.callbacks.version import get_version
 from fly.commands.init import init
 from fly.commands.note.add import add
+from fly.commands.note.view import view
 
 app = typer.Typer()
 note = typer.Typer(help="Create and manage notes for your project.")
@@ -16,9 +19,12 @@ console = Console()
 @app.callback(invoke_without_command=True)
 def main(
     ctx: typer.Context,
-    version: bool = typer.Option(
-        False, "--version", "-v", help="Print version information", is_eager=True
-    ),
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version", "-v", help="Print version information", is_eager=True
+        ),
+    ] = False,
 ):
 
     if version:
@@ -35,3 +41,4 @@ def main(
 
 app.command(help="Initialize a project")(init)
 note.command(help="Create a note")(add)
+note.command(help="Take a look at your existing notes")(view)

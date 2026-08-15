@@ -11,7 +11,12 @@ from fly.services.helpers import Helpers
 
 
 def add(note: list[str]) -> None:
+    """Appends a note
 
+    Args:
+        note: The message which you want to note / remember
+
+    """
     message = " ".join(note)
 
     Helpers.check_git()
@@ -20,7 +25,8 @@ def add(note: list[str]) -> None:
 
     if not FileIO.check_if_initialized(project_root):
         typer.echo(
-            "This project has not been initialized with fly.\n Run fly init to initialize."
+            "This project has not been initialized with fly.\nRun fly init to initialize.",
+            err=True,
         )
         raise typer.Exit(code=1)
 
@@ -36,7 +42,7 @@ def add(note: list[str]) -> None:
 
     timezone = os.environ.get("TZ", "UTC")
     obj = {
-        "id": str(uuid.uuid4()),
+        "id": str(uuid.uuid4())[:7],
         "note": message,
         "timestamp": pendulum.now(timezone).to_iso8601_string(),
     }
