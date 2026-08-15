@@ -1,7 +1,7 @@
 [project]
 name = "fly"
 version = "0.1.0"
-description = "Add your description here"
+description = "Your project's second memory"
 readme = "README.md"
 authors = [
     { name = "Ayush Kumar", email = "ayush438500@gmail.com" }
