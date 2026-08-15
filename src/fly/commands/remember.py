@@ -10,7 +10,10 @@ from fly.services.git import Git
 from fly.services.helpers import Helpers
 
 
-def remember(note: str) -> None:
+def remember(note: list[str]) -> None:
+
+    message = " ".join(note)
+
     Helpers.check_git()
 
     project_root = Helpers.get_proj_root_path(Git.get_repository_root())
@@ -34,7 +37,7 @@ def remember(note: str) -> None:
     timezone = os.environ.get("TZ", "UTC")
     obj = {
         "id": str(uuid.uuid4()),
-        "note": note,
+        "note": message,
         "timestamp": pendulum.now(timezone).to_iso8601_string(),
     }
 
