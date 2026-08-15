@@ -10,7 +10,7 @@ from fly.services.git import Git
 from fly.services.helpers import Helpers
 
 
-def remember(note: list[str]) -> None:
+def add(note: list[str]) -> None:
 
     message = " ".join(note)
 

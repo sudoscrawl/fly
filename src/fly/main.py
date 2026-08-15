@@ -3,9 +3,12 @@ from rich.console import Console
 
 from fly.callbacks.version import get_version
 from fly.commands.init import init
-from fly.commands.remember import remember
+from fly.commands.note.add import add
 
 app = typer.Typer()
+note = typer.Typer(help="Create and manage notes for your project.")
+
+app.add_typer(note, name="note")
 
 console = Console()
 
@@ -31,4 +34,4 @@ def main(
 
 
 app.command(help="Initialize a project")(init)
-app.command(help="Create a note")(remember)
+note.command(help="Create a note")(add)
