@@ -13,7 +13,7 @@ def view(
     note_id: Annotated[
         str | None, typer.Option("--id", help="View a specific note using it's id")
     ] = None,
-):
+) -> None:
     """Checkout your existing project notes
 
     Args:
@@ -58,7 +58,7 @@ def view(
         dt = pendulum.parse(note_obj["timestamp"])
         typer.echo(
             f"ID: {note_id}\nNOTE: {note_obj['note']}\nTIMESTAMP: {dt.format('MMMM D YYYY h:mm A')}"  # pyright: ignore
-        )  # pyright: ignore
+        )
         raise typer.Exit(code=0)
     for note in notes:
         dt = pendulum.parse(note["timestamp"])

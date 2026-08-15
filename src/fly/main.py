@@ -6,6 +6,7 @@ from rich.console import Console
 from fly.callbacks.version import get_version
 from fly.commands.init import init
 from fly.commands.note.add import add
+from fly.commands.note.delete import delete
 from fly.commands.note.view import view
 
 app = typer.Typer()
@@ -42,3 +43,4 @@ def main(
 app.command(help="Initialize a project")(init)
 note.command(help="Create a note")(add)
 note.command(help="Take a look at your existing notes")(view)
+note.command(help="Delete one of the existing notes")(delete)
