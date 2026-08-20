@@ -10,14 +10,14 @@ from fly.services.git import Git
 from fly.services.helpers import Helpers
 
 
-def add(note: list[str]) -> None:
-    """Appends a note
+def add(task: list[str]) -> None:
+    """Creates a new todo
 
     Args:
-        note: The message which you want to note / remember
-
+        task: the task to get stored
     """
-    message = " ".join(note)
+
+    todo = " ".join(task)
 
     Helpers.check_git()
 
@@ -30,26 +30,28 @@ def add(note: list[str]) -> None:
         )
         raise typer.Exit(code=1)
 
-    notes_file = project_root / ".fly/notes.json"
+    todo_file = project_root / ".fly/todo.json"
 
-    if notes_file.exists():
+    if todo_file.exists():
         try:
-            notes = json.loads(notes_file.read_text())
+            todos = json.loads(todo_file.read_text())
         except json.JSONDecodeError:
-            notes = []
+            todos = []
     else:
-        notes = []
+        todos = []
 
     timezone = os.environ.get("TZ", "UTC")
+
     obj = {
         "id": str(uuid.uuid4())[:7],
-        "note": message,
+        "task": todo,
+        "completed": 0,
         "timestamp": pendulum.now(timezone).to_iso8601_string(),
     }
 
-    notes.append(obj)
+    todos.append(obj)
 
-    notes_file.write_text(json.dumps(notes, indent=2) + "\n")
+    todo_file.write_text(json.dumps(todos, indent=2) + "\n")
 
-    typer.echo("Noted.")
+    typer.echo("Task has been added.")
     raise typer.Exit(code=0)
