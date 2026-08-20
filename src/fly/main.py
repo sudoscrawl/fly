@@ -6,9 +6,11 @@ from rich.console import Console
 from fly.callbacks.version import get_version
 from fly.commands.init import init
 from fly.commands.note.add import add as add_note
-from fly.commands.note.delete import delete
-from fly.commands.note.view import view
+from fly.commands.note.delete import delete as delete_note
+from fly.commands.note.view import view as view_note
 from fly.commands.todo.add import add as add_todo
+from fly.commands.todo.delete import delete as delete_todo
+from fly.commands.todo.view import view as view_todo
 
 app = typer.Typer()
 note = typer.Typer(help="Create and manage notes for your project.")
@@ -46,7 +48,9 @@ def main(
 app.command(help="Initialize a project")(init)
 
 note.command(help="Create a note")(add_note)
-note.command(help="Take a look at your existing notes")(view)
-note.command(help="Delete one of the existing notes")(delete)
+note.command(help="Take a look at your existing notes")(view_note)
+note.command(help="Delete one of the existing notes")(delete_note)
 
 todo.command(help="Add a todo")(add_todo)
+todo.command(help="Delete one of the existing todos")(delete_todo)
+todo.command(help="Take a look at your existing todos")(view_todo)
