@@ -7,12 +7,13 @@ from fly.services.git import Git
 from fly.services.helpers import Helpers
 
 
-def delete(note_id: str) -> None:
+def delete(todo_id: str) -> None:
     """Delete a note
 
     Args:
-        id: The id of the note you want to delete
+        todo_id: The id of the todo to get deleted.
     """
+
     Helpers.check_git()
 
     project_root = Helpers.get_proj_root_path(Git.get_repository_root())
@@ -24,30 +25,31 @@ def delete(note_id: str) -> None:
         )
         raise typer.Exit(code=1)
 
-    notes_file = project_root / ".fly/notes.json"
+    todo_file = project_root / ".fly/todo.json"
 
-    if notes_file.exists():
+    if todo_file.exists():
         try:
-            notes = json.loads(notes_file.read_text())
+            todos = json.loads(todo_file.read_text())
         except json.JSONDecodeError:
-            notes = []
+            todos = []
     else:
-        notes = []
+        todos = []
 
-    if not notes:
+    if not todos:
         typer.echo(
-            "This project does not contain any notes.\nUse fly note add to create some notes for yourself.",
+            "This project does not contain any todos.\nUse fly todo add to create some todos for yourself.",
             err=True,
         )
         raise typer.Exit(code=1)
 
-    note_obj = next(note for note in notes if note["id"] == note_id)
+    todo_obj = next(todo for todo in todos if todo["id"] == todo_id)
 
-    if note_obj is None:
-        typer.echo(f"Note with ID {note_id} was not found", err=True)
+    if todo_obj is None:
+        typer.echo(f"Note with ID: {todo_id} was not found.", err=True)
         raise typer.Exit(code=1)
-    notes.remove(note_obj)
-    notes_file.write_text(json.dumps(notes, indent=2) + "\n")
 
-    typer.echo("The note has been erased.")
+    todos.remove(todo_obj)
+    todo_file.write_text(json.dumps(todos, indent="2") + "\n")
+
+    typer.echo("The todo has been erased.")
     raise typer.Exit(code=0)
