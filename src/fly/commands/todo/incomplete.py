@@ -7,8 +7,8 @@ from fly.services.git import Git
 from fly.services.helpers import Helpers
 
 
-def complete(todo_id: str) -> None:
-    """Marks a todo as completed
+def incomplete(todo_id: str) -> None:
+    """Marks a todo back as incomplete
 
     Args:
         todo_id: ID of the todo
@@ -37,7 +37,7 @@ def complete(todo_id: str) -> None:
 
     if not todos:
         typer.echo(
-            "This project does not contain any existing todos.\nUse fly todo add to create some todos for yourself.",
+            "This project does not contain any todos.\nUse fly todo add to create some todos for yourself",
             err=True,
         )
         raise typer.Exit(code=1)
@@ -48,12 +48,12 @@ def complete(todo_id: str) -> None:
         typer.echo(f"Todo with ID: {todo_id} was not found", err=True)
         raise typer.Exit(code=1)
 
-    if todo_obj["completed"]:
-        typer.echo("Your todo was already marked as completed.")
+    if not todo_obj["completed"]:
+        typer.echo("Your todo was already marked as incomplete")
         raise typer.Exit(code=0)
-    todo_obj["completed"] = 1
+    todo_obj["completed"] = 0
 
     todo_file.write_text(json.dumps(todos, indent=2) + "\n")
 
-    typer.echo("Todo has been marked as completed.")
+    typer.echo("Your todo has been marked as incomplete")
     raise typer.Exit(code=0)
