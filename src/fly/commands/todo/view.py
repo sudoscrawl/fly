@@ -12,7 +12,7 @@ from fly.services.helpers import Helpers
 def view(
     todo_id: Annotated[
         str | None, typer.Option("--id", help="View a specific todo using it's id")
-    ],
+    ] = None,
 ) -> None:
     """Checkout your existing project todos
 
