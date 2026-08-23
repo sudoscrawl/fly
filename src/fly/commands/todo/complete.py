@@ -42,7 +42,11 @@ def complete(todo_id: str) -> None:
         typer.echo(f"Todo with ID: {todo_id} was not found", err=True)
         raise typer.Exit(code=1)
 
-    todo_obj["completed"] = 1
+    if todo_obj["completed"]:
+        typer.echo("Your todo was already marked as completed.")
+        raise typer.Exit(code=0)
+    else:
+        todo_obj["completed"] = 1
 
     todo_file.write_text(json.dumps(todos, indent=2) + "\n")
 
