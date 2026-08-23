@@ -7,13 +7,7 @@ from fly.services.git import Git
 from fly.services.helpers import Helpers
 
 
-def delete(todo_id: str) -> None:
-    """Delete a note
-
-    Args:
-        todo_id: The id of the todo to get deleted.
-    """
-
+def complete(todo_id: str) -> None:
     Helpers.check_git()
 
     project_root = Helpers.get_proj_root_path(Git.get_repository_root())
@@ -37,7 +31,7 @@ def delete(todo_id: str) -> None:
 
     if not todos:
         typer.echo(
-            "This project does not contain any todos.\nUse fly todo add to create some todos for yourself.",
+            "This project does not contain any existing todos.\nUse fly todo add to create some todos for yourself.",
             err=True,
         )
         raise typer.Exit(code=1)
@@ -45,11 +39,12 @@ def delete(todo_id: str) -> None:
     todo_obj = next(todo for todo in todos if todo["id"] == todo_id)
 
     if todo_obj is None:
-        typer.echo(f"Note with ID: {todo_id} was not found.", err=True)
+        typer.echo(f"Todo with ID: {todo_id} was not found", err=True)
         raise typer.Exit(code=1)
 
-    todos.remove(todo_obj)
+    todo_obj["completed"] = 1
+
     todo_file.write_text(json.dumps(todos, indent=2) + "\n")
 
-    typer.echo("The todo has been erased.")
+    typer.echo("Todo has been marked as completed.")
     raise typer.Exit(code=0)

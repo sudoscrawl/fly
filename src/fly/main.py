@@ -9,6 +9,7 @@ from fly.commands.note.add import add as add_note
 from fly.commands.note.delete import delete as delete_note
 from fly.commands.note.view import view as view_note
 from fly.commands.todo.add import add as add_todo
+from fly.commands.todo.complete import complete as complete_todo
 from fly.commands.todo.delete import delete as delete_todo
 from fly.commands.todo.view import view as view_todo
 
@@ -54,3 +55,4 @@ note.command(help="Delete one of the existing notes")(delete_note)
 todo.command(help="Add a todo")(add_todo)
 todo.command(help="Delete one of the existing todos")(delete_todo)
 todo.command(help="Take a look at your existing todos")(view_todo)
+todo.command(help="Change the status of a todo as completed")(complete_todo)
