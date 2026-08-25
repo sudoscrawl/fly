@@ -1,6 +1,6 @@
 [project]
 name = "flyt"
-version = "0.1.2"
+version = "0.2.0"
 description = "Your project's second memory"
 readme = "README.md"
 authors = [
