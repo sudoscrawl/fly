@@ -14,7 +14,7 @@ class JSON:
             return []
 
     @staticmethod
-    def render_json(path: Path, text: str) -> None:
+    def render_json(path: Path, text: list[dict]) -> None:
         if not path.exists():
             raise FileNotFoundError
 

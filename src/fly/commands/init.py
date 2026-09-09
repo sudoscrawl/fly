@@ -1,15 +1,15 @@
 import typer
 
 from fly.services.fileio import FileIO
-from fly.services.git import Git
-from fly.services.helpers import Helpers
+from fly.helpers.git import GitUtils
+from fly.helpers.utils import Utils
 
 
 def init(name: str | None = None):
 
-    Helpers.check_git()
+    GitUtils.check_git()
 
-    project_root = Helpers.get_proj_root_path(Git.get_repository_root())
+    project_root = Utils.get_project_root_path()
 
     if name is None:
         name = project_root.name

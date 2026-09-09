@@ -1,16 +1,18 @@
 from pathlib import Path
+
+from fly.services.git import Git
 from fly.services.fileio import FileIO
 import typer
 
 
 class Utils:
     @staticmethod
-    def get_project_root_path(path: str) -> Path:
-        return Path(path)
+    def get_project_root_path() -> Path:
+        return Path(Git.get_repository_root())
 
     @staticmethod
-    def is_fly_initialized(path: Path) -> None:
-        if not FileIO.check_if_initialized(path):
+    def is_fly_initialized() -> None:
+        if not FileIO.check_if_initialized(Path(Git.get_repository_root())):
             typer.echo(
                 "This project has not been initialized with fly.\nRun fly init to initialize.",
                 err=True,

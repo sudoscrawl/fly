@@ -7,7 +7,9 @@ import typer
 
 from fly.services.fileio import FileIO
 from fly.services.git import Git
-from fly.services.helpers import Helpers
+from fly.helpers.git import GitUtils
+from fly.helpers.utils import Utils
+from fly.helpers.json import JSON
 
 
 def add(note: list[str]) -> None:
@@ -19,26 +21,14 @@ def add(note: list[str]) -> None:
     """
     message = " ".join(note)
 
-    Helpers.check_git()
+    GitUtils.check_git()
 
-    project_root = Helpers.get_proj_root_path(Git.get_repository_root())
-
-    if not FileIO.check_if_initialized(project_root):
-        typer.echo(
-            "This project has not been initialized with fly.\nRun fly init to initialize.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
+    project_root = Utils.get_project_root_path()
+    Utils.is_fly_initialized()
 
     notes_file = project_root / ".fly/notes.json"
 
-    if notes_file.exists():
-        try:
-            notes = json.loads(notes_file.read_text())
-        except json.JSONDecodeError:
-            notes = []
-    else:
-        notes = []
+    notes = JSON.load_json(notes_file)
 
     timezone = os.environ.get("TZ", "UTC")
     obj = {
@@ -49,7 +39,7 @@ def add(note: list[str]) -> None:
 
     notes.append(obj)
 
-    notes_file.write_text(json.dumps(notes, indent=2) + "\n")
+    JSON.render_json(notes_file, notes)
 
     typer.echo("Noted.")
     raise typer.Exit(code=0)
