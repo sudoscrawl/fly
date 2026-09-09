@@ -4,7 +4,7 @@ from fly.helpers.git import GitUtils
 class Git:
     @staticmethod
     def is_repository() -> bool:
-        return GitUtils.run_git("rev-parse", "--is-inside-work-tree")
+        return GitUtils.run_git("rev-parse", "--is-inside-work-tree") == "true"
 
     @staticmethod
     def get_repository_root() -> str:
