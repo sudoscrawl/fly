@@ -1,12 +1,11 @@
-import json
 from typing import Annotated
 
 import pendulum
 import typer
 
-from fly.services.fileio import FileIO
-from fly.services.git import Git
-from fly.services.helpers import Helpers
+from fly.helpers.git import GitUtils
+from fly.helpers.json import JSON
+from fly.helpers.utils import Utils
 
 
 def view(
@@ -20,26 +19,15 @@ def view(
         id: provide the specific of the note and only access that
     """
 
-    Helpers.check_git()
+    GitUtils.check_git()
 
-    project_root = Helpers.get_proj_root_path(Git.get_repository_root())
+    project_root = Utils.get_project_root_path()
 
-    if not FileIO.check_if_initialized(project_root):
-        typer.echo(
-            "This project has not been initialized with fly.\nRun fly to initialize.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
+    Utils.is_fly_initialized()
 
     notes_file = project_root / ".fly/notes.json"
 
-    if notes_file.exists():
-        try:
-            notes = json.loads(notes_file.read_text())
-        except json.JSONDecodeError:
-            notes = []
-    else:
-        notes = []
+    notes = JSON.load_json(notes_file)
 
     if not notes:
         typer.echo(

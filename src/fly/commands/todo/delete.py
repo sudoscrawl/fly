@@ -1,10 +1,8 @@
-import json
-
 import typer
 
-from fly.services.fileio import FileIO
-from fly.services.git import Git
-from fly.services.helpers import Helpers
+from fly.helpers.git import GitUtils
+from fly.helpers.json import JSON
+from fly.helpers.utils import Utils
 
 
 def delete(todo_id: str) -> None:
@@ -14,26 +12,15 @@ def delete(todo_id: str) -> None:
         todo_id: The id of the todo to get deleted.
     """
 
-    Helpers.check_git()
+    GitUtils.check_git()
 
-    project_root = Helpers.get_proj_root_path(Git.get_repository_root())
+    project_root = Utils.get_project_root_path()
 
-    if not FileIO.check_if_initialized(project_root):
-        typer.echo(
-            "This project has not been initialized with fly.\nRun fly init to initialize.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
+    Utils.is_fly_initialized()
 
     todo_file = project_root / ".fly/todo.json"
 
-    if todo_file.exists():
-        try:
-            todos = json.loads(todo_file.read_text())
-        except json.JSONDecodeError:
-            todos = []
-    else:
-        todos = []
+    todos = JSON.load_json(todo_file)
 
     if not todos:
         typer.echo(
@@ -49,7 +36,7 @@ def delete(todo_id: str) -> None:
         raise typer.Exit(code=1)
 
     todos.remove(todo_obj)
-    todo_file.write_text(json.dumps(todos, indent=2) + "\n")
+    JSON.render_json(todo_file, todos)
 
     typer.echo("The todo has been erased.")
     raise typer.Exit(code=0)

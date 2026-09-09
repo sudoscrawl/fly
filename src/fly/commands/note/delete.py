@@ -1,10 +1,8 @@
-import json
-
 import typer
 
-from fly.services.fileio import FileIO
-from fly.services.git import Git
-from fly.services.helpers import Helpers
+from fly.helpers.git import GitUtils
+from fly.helpers.json import JSON
+from fly.helpers.utils import Utils
 
 
 def delete(note_id: str) -> None:
@@ -13,26 +11,15 @@ def delete(note_id: str) -> None:
     Args:
         id: The id of the note you want to delete
     """
-    Helpers.check_git()
+    GitUtils.check_git()
 
-    project_root = Helpers.get_proj_root_path(Git.get_repository_root())
+    project_root = Utils.get_project_root_path()
 
-    if not FileIO.check_if_initialized(project_root):
-        typer.echo(
-            "This project has not been initialized with fly.\nRun fly init to initialize.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
+    Utils.is_fly_initialized()
 
     notes_file = project_root / ".fly/notes.json"
 
-    if notes_file.exists():
-        try:
-            notes = json.loads(notes_file.read_text())
-        except json.JSONDecodeError:
-            notes = []
-    else:
-        notes = []
+    notes = JSON.load_json(notes_file)
 
     if not notes:
         typer.echo(
@@ -47,7 +34,8 @@ def delete(note_id: str) -> None:
         typer.echo(f"Note with ID {note_id} was not found", err=True)
         raise typer.Exit(code=1)
     notes.remove(note_obj)
-    notes_file.write_text(json.dumps(notes, indent=2) + "\n")
+
+    JSON.render_json(notes_file, notes)
 
     typer.echo("The note has been erased.")
     raise typer.Exit(code=0)

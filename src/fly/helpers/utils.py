@@ -1,8 +1,9 @@
 from pathlib import Path
 
-from fly.services.git import Git
-from fly.services.fileio import FileIO
 import typer
+
+from fly.services.fileio import FileIO
+from fly.services.git import Git
 
 
 class Utils:

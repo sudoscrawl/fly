@@ -1,12 +1,11 @@
-import json
 from typing import Annotated
 
 import pendulum
 import typer
 
-from fly.services.fileio import FileIO
-from fly.services.git import Git
-from fly.services.helpers import Helpers
+from fly.helpers.git import GitUtils
+from fly.helpers.json import JSON
+from fly.helpers.utils import Utils
 
 
 def view(
@@ -20,26 +19,15 @@ def view(
         todo_id: View a specific todo using it's id
     """
 
-    Helpers.check_git()
+    GitUtils.check_git()
 
-    project_root = Helpers.get_proj_root_path(Git.get_repository_root())
+    project_root = Utils.get_project_root_path()
 
-    if not FileIO.check_if_initialized(project_root):
-        typer.echo(
-            "This project has not been initialized with fly.\nRun fly init to initialize.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
+    Utils.is_fly_initialized()
 
     todo_file = project_root / ".fly/todo.json"
 
-    if todo_file.exists():
-        try:
-            todos = json.loads(todo_file.read_text())
-        except json.JSONDecodeError:
-            todos = []
-    else:
-        todos = []
+    todos = JSON.load_json(todo_file)
 
     if not todos:
         typer.echo(

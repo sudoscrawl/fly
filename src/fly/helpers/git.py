@@ -1,5 +1,7 @@
-import typer
 import subprocess
+
+import typer
+
 from fly.services.git import Git
 
 
