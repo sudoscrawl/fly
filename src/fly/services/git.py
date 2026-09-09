@@ -1,21 +1,12 @@
 import subprocess
+from fly.helpers.git import GitUtils
 
 
 class Git:
     @staticmethod
     def is_repository() -> bool:
-        res = subprocess.run(
-            ["git", "rev-parse", "--is-inside-work-tree"],
-            capture_output=True,
-            text=True,
-        )
-        return res.stdout.strip() == "true"
+        return GitUtils.run_git("rev-parse", "--is-inside-work-tree") == True
 
     @staticmethod
-    def get_repository_root() -> str:
-        res = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
-            capture_output=True,
-            text=True,
-        )
-        return res.stdout.strip()
+    def get_repository_root() -> str | None:
+        return GitUtils.run_git("rev-parse", "--show-toplevel")
