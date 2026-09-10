@@ -5,6 +5,7 @@ from rich.console import Console
 
 from fly.callbacks.version import get_version
 from fly.commands.init import init
+from fly.commands.where_was_i import where_was_i
 from fly.commands.note.add import add as add_note
 from fly.commands.note.delete import delete as delete_note
 from fly.commands.note.view import view as view_note
@@ -48,6 +49,7 @@ def main(
 
 
 app.command(help="Initialize a project")(init)
+app.command("where-was-i", help = "Get information on your progress")(where_was_i)
 
 note.command(help="Create a note")(add_note)
 note.command(help="Take a look at your existing notes")(view_note)

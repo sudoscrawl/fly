@@ -2,8 +2,6 @@ import subprocess
 
 import typer
 
-from fly.services.git import Git
-
 
 class GitUtils:
     @staticmethod
@@ -18,6 +16,6 @@ class GitUtils:
 
     @staticmethod
     def check_git() -> None:
-        if not Git.is_repository():
+        if not (GitUtils.run_git("rev-parse", "--is-inside-work-tree") == "true"):
             typer.echo("Not inside a Git repository.", err=True)
             raise typer.Exit(code=1)
