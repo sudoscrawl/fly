@@ -1,11 +1,12 @@
 import typer
-from fly.helpers.utils import Utils
+
 from fly.helpers.git import GitUtils
 from fly.helpers.json import JSON
+from fly.helpers.utils import Utils
 
 
 def where_was_i() -> None:
-    
+
     GitUtils.check_git()
 
     project_root = Utils.get_project_root_path()
@@ -18,8 +19,5 @@ def where_was_i() -> None:
     notes = JSON.load_json(notes_file)
     todos = JSON.load_json(todo_file)
 
-    typer.secho(
-        f"{project_root.name}",
-        bold = True        
-    )
+    typer.secho(f"{project_root.name}", bold=True)
     typer.echo(str(project_root))
