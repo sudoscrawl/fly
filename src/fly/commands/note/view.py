@@ -45,7 +45,7 @@ def view(
 
         dt = pendulum.parse(note_obj["timestamp"])
         typer.echo(
-            f"ID: {note_id}\nNOTE: {note_obj['note']}\nTIMESTAMP: {dt.format('MMMM D YYYY h:mm A')}"  # pyright: ignore
+            f"ID: {note_id}\nNOTE: {note_obj['note']}\nTIMESTAMP: {dt.format('MMMM D YYYY h:mm A')}"  # type : ignore
         )
         raise typer.Exit(code=0)
     for note in notes:

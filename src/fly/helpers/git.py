@@ -16,7 +16,7 @@ class GitUtils:
 
     @staticmethod
     def check_git() -> None:
-        if (GitUtils.run_git("rev-parse", "--is-inside-work-tree") != "true"):
+        if GitUtils.run_git("rev-parse", "--is-inside-work-tree") != "true":
             typer.echo("Not inside a Git repository.", err=True)
             raise typer.Exit(code=1)
 

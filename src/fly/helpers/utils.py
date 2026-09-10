@@ -1,3 +1,5 @@
+import pendulum
+import os
 from pathlib import Path
 
 import typer
@@ -19,3 +21,43 @@ class Utils:
                 err=True,
             )
             raise typer.Exit(code=1)
+
+    @staticmethod
+    def get_timezone() -> str:
+        return os.environ.get("TZ", "UTC")
+
+    @staticmethod
+    def get_timestamp() -> str:
+        timezone = Utils.get_timezone()
+        return pendulum.now(timezone).to_iso8601_string()
+
+    @staticmethod
+    def get_relative_time(timestamp: str) -> str:
+        now = pendulum.now(Utils.get_timezone())
+        period = now - pendulum.parse(timestamp)  # type: ignore
+        difference = max(0, period.total_seconds())
+
+        if difference < 60:
+            return "just now"
+
+        minutes = difference // 60
+
+        if minutes < 60:
+            return f"{minutes}m ago"
+
+        hours = minutes // 60
+
+        if hours < 24:
+            return f"{hours}h ago"
+
+        days = hours // 24
+
+        if days < 7:
+            return f"{days}d ago"
+
+        weeks = days // 7
+
+        if weeks < 5:
+            return f"{weeks}w ago"
+
+        return f"{days // 30}mo ago"
